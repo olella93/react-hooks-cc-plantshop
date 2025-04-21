@@ -17,7 +17,7 @@
       "name": "Pilea peperomioides",
       "image": "./images/pilea.jpg",
       "price": 5.99,
-      "sold_out": true
+      "sold_out": false
     },
     {
       "id": "4",
@@ -35,7 +35,8 @@
       "id": "6",
       "name": "Monstera Deliciosa",
       "image": "./images/monstera.jpg",
-      "price": 25.99
+      "price": 25.99,
+      "sold_out": true
     },
     {
       "id": "7",
@@ -47,7 +48,8 @@
       "id": "c320",
       "name": "Donatella",
       "image": "https://images.unsplash.com/photo-1599148401005-fe6d7497cb5e?q=80&w=2268&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D.jpeg",
-      "price": 56
+      "price": 56,
+      "sold_out": true
     }
   ]
 }

@@ -12,7 +12,7 @@ function PlantPage({ plants, handleAddPlant, handleSearch, handleMarkSoldOut, ha
         plants={plants}
         handleMarkSoldOut={handleMarkSoldOut}
         handleDelete={handleDelete} 
-      /> {/* Plant List */}
+      /> 
     </main>
   );
 }

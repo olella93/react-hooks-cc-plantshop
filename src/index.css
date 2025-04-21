@@ -99,16 +99,16 @@ input:focus {
 
 .cards {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 columns */
-  gap: 16px; /* Space between cards */
-  list-style: none; /* Remove default list styling */
-  padding: 0; /* Remove default padding */
-  margin: 0; /* Remove default margin */
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 16px; 
+  list-style: none; 
+  padding: 0; 
+  margin: 0; 
 }
 
 .cards li {
-  display: flex; /* Ensure the li wraps the card properly */
-  justify-content: center; /* Optional: Center the card */
+  display: flex; 
+  justify-content: center; 
 }
 
 .plant-card {
@@ -125,9 +125,9 @@ input:focus {
 }
 
 .plant-card img {
-  width: 100%; /* Ensure the image fills the card width */
-  max-height: 200px; /* Set a max height for images */
-  object-fit: contain; /* Preserve aspect ratio */
+  width: 100%; 
+  max-height: 200px; 
+  object-fit: contain; 
   margin-bottom: 1rem;
 }
 

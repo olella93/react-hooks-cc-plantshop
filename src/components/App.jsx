@@ -39,25 +39,28 @@ function App() {
       .catch((err) => console.error("Error adding plant:", err));
   };
 
-  // Handle marking a plant as sold out
-  const handleMarkSoldOut = (id) => {
-    fetch(`http://localhost:6001/plants/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ sold_out: true }),
+ // Handle toggling a plant's sold_out status
+ const handleMarkSoldOut = (id) => {
+  const plantToUpdate = plants.find((plant) => plant.id === id);
+  const updatedSoldOutStatus = !plantToUpdate.sold_out;
+
+  fetch(`http://localhost:6001/plants/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ sold_out: updatedSoldOutStatus }),
+  })
+    .then((res) => res.json())
+    .then((updatedPlant) => {
+      setPlants((prevPlants) =>
+        prevPlants.map((plant) =>
+          plant.id === id ? updatedPlant : plant
+        )
+      );
     })
-      .then((res) => res.json())
-      .then((updatedPlant) => {
-        setPlants((prevPlants) =>
-          prevPlants.map((plant) =>
-            plant.id === id ? updatedPlant : plant
-          )
-        );
-      })
-      .catch((err) => console.error("Error updating plant:", err));
-  };
+    .catch((err) => console.error("Error updating plant:", err));
+};
 
    // Handle deleting a plant
    const handleDelete = (id) => {
@@ -76,11 +79,11 @@ function App() {
     <div className="App">
       <h1>🌱 Plantsy</h1>
       <PlantPage
-        plants={filteredPlants} // Pass filtered plants
-        handleAddPlant={handleAddPlant} // Pass add plant function
-        handleSearch={handleSearch} // Pass search function
-        handleMarkSoldOut={handleMarkSoldOut} // Pass sold out function
-        handleDelete={handleDelete} // Pass delete function
+        plants={filteredPlants} 
+        handleAddPlant={handleAddPlant} 
+        handleSearch={handleSearch} 
+        handleMarkSoldOut={handleMarkSoldOut} 
+        handleDelete={handleDelete}
       />
     </div>
   );
