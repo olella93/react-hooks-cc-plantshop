@@ -13,7 +13,7 @@ function NewPlantForm({ handleAddPlant }) {
       image,
       price: parseFloat(price),
     };
-    handleAddPlant(newPlant); // Call the passed function to add the new plant
+    handleAddPlant(newPlant); 
     setName(""); 
     setImage("");
     setPrice("");

@@ -98,15 +98,37 @@ input:focus {
 }
 
 .cards {
-  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columns */
+  gap: 16px; /* Space between cards */
+  list-style: none; /* Remove default list styling */
+  padding: 0; /* Remove default padding */
+  margin: 0; /* Remove default margin */
 }
 
-.card {
-  margin: 1rem;
+.cards li {
+  display: flex; /* Ensure the li wraps the card properly */
+  justify-content: center; /* Optional: Center the card */
 }
 
-.card img {
-  width: 100%;
+.plant-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 350px;
+  overflow: hidden;
+}
+
+.plant-card img {
+  width: 100%; /* Ensure the image fills the card width */
+  max-height: 200px; /* Set a max height for images */
+  object-fit: contain; /* Preserve aspect ratio */
+  margin-bottom: 1rem;
 }
 
 .card button {
