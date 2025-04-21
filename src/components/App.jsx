@@ -1,20 +1,30 @@
 import React, { useState, useEffect } from "react";
 import PlantList from "./PlantList";
-import NewPlantForm from "./NewPlantForm";
 import Search from "./Search";
+import NewPlantForm from "./NewPlantForm";
 
 function App() {
   const [plants, setPlants] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Fetch plants on mount
   useEffect(() => {
     fetch("http://localhost:6001/plants")
-      .then((response) => response.json())
-      .then((data) => setPlants(data));
+      .then((res) => res.json())
+      .then((data) => setPlants(data))
+      .catch((err) => console.error("Error fetching plants:", err));
   }, []);
 
-  // Add new plant
+  // Handle searching plants by name
+  const handleSearch = (query) => {
+    setSearchTerm(query);
+  };
+
+  // Filter plants based on searchTerm
+  const filteredPlants = plants.filter((plant) =>
+    plant.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // Handle adding a new plant
   const handleAddPlant = (newPlant) => {
     fetch("http://localhost:6001/plants", {
       method: "POST",
@@ -23,11 +33,12 @@ function App() {
       },
       body: JSON.stringify(newPlant),
     })
-      .then((response) => response.json())
-      .then((data) => setPlants((prevPlants) => [...prevPlants, data]));
+      .then((res) => res.json())
+      .then((data) => setPlants((prevPlants) => [...prevPlants, data]))
+      .catch((err) => console.error("Error adding plant:", err));
   };
 
-  // Mark plant as sold out
+  // Handle marking a plant as sold out
   const handleMarkSoldOut = (id) => {
     fetch(`http://localhost:6001/plants/${id}`, {
       method: "PATCH",
@@ -36,29 +47,26 @@ function App() {
       },
       body: JSON.stringify({ sold_out: true }),
     })
-      .then((response) => response.json())
+      .then((res) => res.json())
       .then((updatedPlant) => {
         setPlants((prevPlants) =>
           prevPlants.map((plant) =>
             plant.id === id ? updatedPlant : plant
           )
         );
-      });
+      })
+      .catch((err) => console.error("Error updating plant:", err));
   };
 
   return (
-    <div>
-      <h1>Plantsy Admin</h1>
-
-      <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-
+    <div className="App">
+      <h1>🌱 Plantsy</h1>
+      <Search handleSearch={handleSearch} /> 
+      <NewPlantForm handleAddPlant={handleAddPlant} /> 
       <PlantList
-        plants={plants}
-        searchTerm={searchTerm}
-        handleMarkSoldOut={handleMarkSoldOut}
-      />
-
-      <NewPlantForm handleAddPlant={handleAddPlant} />
+        plants={filteredPlants}
+        handleMarkSoldOut={handleMarkSoldOut} 
+      /> {/* Plant List */}
     </div>
   );
 }
