@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PlantList from "./PlantList";
-import PlantForm from "./PlantForm";
+import NewPlantForm from "./NewPlantForm";
 import Search from "./Search";
 
 function App() {
@@ -58,7 +58,7 @@ function App() {
         handleMarkSoldOut={handleMarkSoldOut}
       />
 
-      <PlantForm handleAddPlant={handleAddPlant} />
+      <NewPlantForm handleAddPlant={handleAddPlant} />
     </div>
   );
 }
