@@ -1,7 +1,7 @@
 import React from "react";
 import PlantCard from "./PlantCard";
 
-function PlantList({ plants, handleMarkSoldOut }) {
+function PlantList({ plants, handleMarkSoldOut, handleDelete }) {
   return (
     <ul className="cards">
       {plants.map((plant) => (
@@ -9,6 +9,7 @@ function PlantList({ plants, handleMarkSoldOut }) {
           <PlantCard
             plant={plant}
             handleMarkSoldOut={handleMarkSoldOut}
+            handleDelete={handleDelete} 
           />
         </li>
       ))}

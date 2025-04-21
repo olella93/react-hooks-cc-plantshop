@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import PlantList from "./PlantList";
 import Search from "./Search";
 import NewPlantForm from "./NewPlantForm";
+import PlantPage from "./PlantPage";
 
 function App() {
   const [plants, setPlants] = useState([]);
@@ -58,15 +59,29 @@ function App() {
       .catch((err) => console.error("Error updating plant:", err));
   };
 
+   // Handle deleting a plant
+   const handleDelete = (id) => {
+    fetch(`http://localhost:6001/plants/${id}`, {
+      method: "DELETE",
+    })
+      .then(() => {
+        setPlants((prevPlants) =>
+          prevPlants.filter((plant) => plant.id !== id)
+        );
+      })
+      .catch((err) => console.error("Error deleting plant:", err));
+  };
+
   return (
     <div className="App">
       <h1>🌱 Plantsy</h1>
-      <Search handleSearch={handleSearch} /> 
-      <NewPlantForm handleAddPlant={handleAddPlant} /> 
-      <PlantList
-        plants={filteredPlants}
-        handleMarkSoldOut={handleMarkSoldOut} 
-      /> {/* Plant List */}
+      <PlantPage
+        plants={filteredPlants} // Pass filtered plants
+        handleAddPlant={handleAddPlant} // Pass add plant function
+        handleSearch={handleSearch} // Pass search function
+        handleMarkSoldOut={handleMarkSoldOut} // Pass sold out function
+        handleDelete={handleDelete} // Pass delete function
+      />
     </div>
   );
 }

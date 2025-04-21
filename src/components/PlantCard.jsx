@@ -1,6 +1,6 @@
 import React from "react";
 
-function PlantCard({ plant, handleMarkSoldOut }) {
+function PlantCard({ plant, handleMarkSoldOut, handleDelete }) {
   return (
     <div className="plant-card">
       <img src={plant.image} alt={plant.name} />
@@ -11,6 +11,9 @@ function PlantCard({ plant, handleMarkSoldOut }) {
         onClick={() => handleMarkSoldOut(plant.id)}
       >
         {plant.sold_out ? "Sold Out" : "In Stock"}
+      </button>
+      <button className="delete-button" onClick={() => handleDelete(plant.id)}>
+        Delete
       </button>
     </div>
   );
