@@ -7,25 +7,27 @@ import PlantPage from "./PlantPage";
 function App() {
   const [plants, setPlants] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [updatingIds, setUpdatingIds] = useState(new Set());
 
   useEffect(() => {
+    fetchPlants();
+  }, []);
+
+  const fetchPlants = () => {
     fetch("https://plantsydbjson.vercel.app/plants")
       .then((res) => res.json())
       .then((data) => setPlants(data))
       .catch((err) => console.error("Error fetching plants:", err));
-  }, []);
+  };
 
-  // Handle searching plants by name
   const handleSearch = (query) => {
     setSearchTerm(query);
   };
 
-  // Filter plants based on searchTerm
   const filteredPlants = plants.filter((plant) =>
     plant.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Handle adding a new plant
   const handleAddPlant = (newPlant) => {
     fetch("https://plantsydbjson.vercel.app/plants", {
       method: "POST",
@@ -39,31 +41,42 @@ function App() {
       .catch((err) => console.error("Error adding plant:", err));
   };
 
- // Handle toggling a plant's sold_out status
- const handleMarkSoldOut = (id) => {
-  const plantToUpdate = plants.find((plant) => plant.id === id);
-  const updatedSoldOutStatus = !plantToUpdate.sold_out;
-
-  fetch(`https://plantsydbjson.vercel.app/plants/${id}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ sold_out: updatedSoldOutStatus }),
-  })
-    .then((res) => res.json())
-    .then((updatedPlant) => {
-      setPlants((prevPlants) =>
-        prevPlants.map((plant) =>
-          plant.id === id ? updatedPlant : plant
+  const handleMarkSoldOut = async (id) => {
+    // Show loading state
+    setUpdatingIds(prev => new Set(prev).add(id));
+  
+    try {
+      // Update server
+      const response = await fetch(`https://plantsydbjson.vercel.app/plants/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ sold_out: true }), // Always set to true
+      });
+  
+      if (!response.ok) throw new Error('Update failed');
+  
+      // Update local state
+      setPlants(prevPlants =>
+        prevPlants.map(plant =>
+          plant.id === id ? { ...plant, sold_out: true } : plant
         )
       );
-    })
-    .catch((err) => console.error("Error updating plant:", err));
-};
+  
+    } catch (err) {
+      console.error("Error marking sold out:", err);
+    } finally {
+      // Remove loading state
+      setUpdatingIds(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(id);
+        return newSet;
+      });
+    }
+  };
 
-   // Handle deleting a plant
-   const handleDelete = (id) => {
+  const handleDelete = (id) => {
     fetch(`https://plantsydbjson.vercel.app/plants/${id}`, {
       method: "DELETE",
     })
@@ -84,6 +97,7 @@ function App() {
         handleSearch={handleSearch} 
         handleMarkSoldOut={handleMarkSoldOut} 
         handleDelete={handleDelete}
+        updatingIds={updatingIds}
       />
     </div>
   );

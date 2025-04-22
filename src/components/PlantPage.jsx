@@ -3,16 +3,24 @@ import NewPlantForm from "./NewPlantForm";
 import PlantList from "./PlantList";
 import Search from "./Search";
 
-function PlantPage({ plants, handleAddPlant, handleSearch, handleMarkSoldOut, handleDelete }) {
+function PlantPage({ 
+  plants, 
+  handleAddPlant, 
+  handleSearch, 
+  handleMarkSoldOut, 
+  handleDelete,
+  updatingIds  
+}) {
   return (
     <main>
-      <NewPlantForm handleAddPlant={handleAddPlant} /> 
-      <Search handleSearch={handleSearch} /> 
+      <NewPlantForm handleAddPlant={handleAddPlant} />
+      <Search handleSearch={handleSearch} />
       <PlantList
         plants={plants}
         handleMarkSoldOut={handleMarkSoldOut}
-        handleDelete={handleDelete} 
-      /> 
+        handleDelete={handleDelete}
+        updatingIds={updatingIds} 
+      />
     </main>
   );
 }
