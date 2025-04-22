@@ -9,7 +9,7 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:6001/plants")
+    fetch("https://plantsydbjson.vercel.app/plants")
       .then((res) => res.json())
       .then((data) => setPlants(data))
       .catch((err) => console.error("Error fetching plants:", err));
@@ -27,7 +27,7 @@ function App() {
 
   // Handle adding a new plant
   const handleAddPlant = (newPlant) => {
-    fetch("http://localhost:6001/plants", {
+    fetch("https://plantsydbjson.vercel.app/plants", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -44,7 +44,7 @@ function App() {
   const plantToUpdate = plants.find((plant) => plant.id === id);
   const updatedSoldOutStatus = !plantToUpdate.sold_out;
 
-  fetch(`http://localhost:6001/plants/${id}`, {
+  fetch(`https://plantsydbjson.vercel.app/plants/${id}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -64,7 +64,7 @@ function App() {
 
    // Handle deleting a plant
    const handleDelete = (id) => {
-    fetch(`http://localhost:6001/plants/${id}`, {
+    fetch(`https://plantsydbjson.vercel.app/plants/${id}`, {
       method: "DELETE",
     })
       .then(() => {
