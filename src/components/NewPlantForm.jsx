@@ -11,7 +11,7 @@ function NewPlantForm({ handleAddPlant }) {
     const newPlant = {
       name,
       image,
-      price: parseFloat(price),
+      price: price.toString(),
     };
     handleAddPlant(newPlant); 
     setName(""); 
